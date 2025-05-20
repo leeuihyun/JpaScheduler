@@ -49,7 +49,7 @@ public class ScheduleController {
     @DeleteMapping("/delete/{scheduleId}")
     public ResponseEntity<?> deleteSchedule(@PathVariable Long scheduleId) throws Exception {
         Long deletedScheduleId = scheduleService.deleteSchedule(scheduleId);
-        return ResponseEntity.ok().body(deletedScheduleId);
+        return ResponseEntity.ok().body(new ScheduleIdResponse(deletedScheduleId));
     }
 
 }

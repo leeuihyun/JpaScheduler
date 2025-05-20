@@ -15,6 +15,10 @@ public class UserCreateRequest {
     @Size(min = 2, max = 10)
     private String userName;
 
+    @NotBlank
+    @Size(min = 2, max = 100)
+    private String userPassword;
+
     @Email
     @NotBlank
     private String userEmail;
@@ -23,6 +27,7 @@ public class UserCreateRequest {
         return User.builder()
             .userName(this.userName)
             .userEmail(this.userEmail)
+            .userPassword(this.userPassword)
             .build();
     }
 }

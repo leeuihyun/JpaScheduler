@@ -1,12 +1,17 @@
 package com.scheduler.hyun.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.scheduler.hyun.domain.dto.user.UserResponse;
 import com.scheduler.hyun.domain.dto.user.UserUpdateRequest;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,11 +29,18 @@ public class User extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(name = "user_name")
+    @Column(name = "user_name", nullable = false)
     private String userName;
 
-    @Column(name = "user_email")
+    @Column(name = "user_email", nullable = false)
     private String userEmail;
+
+    @Column(name = "user_password", nullable = false)
+    private String userPassword;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Schedule> schedules = new ArrayList<>();
 
     public void updateUser(UserUpdateRequest userUpdateRequest) {
         this.userName = userUpdateRequest.getUserName();
