@@ -199,6 +199,7 @@
 ```json
 {
   "userName": String,
+  "userPassword": String,
   "userEmail": String
 }
 ```
