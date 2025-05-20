@@ -6,7 +6,6 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import lombok.Getter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -16,19 +15,19 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public abstract class BaseTimeEntity {
 
     @Column(name = "created_at")
-    private String createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
-    private String updatedAt;
+    private LocalDateTime updatedAt;
 
     @PrePersist
     void onPrePersist() {
-        this.createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        this.updatedAt = createdAt;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = this.createdAt;
     }
 
     @PreUpdate
     void onPreUpdate() {
-        this.updatedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        this.updatedAt = LocalDateTime.now();
     }
 }

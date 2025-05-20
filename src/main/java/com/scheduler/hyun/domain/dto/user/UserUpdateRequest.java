@@ -1,5 +1,6 @@
-package com.scheduler.hyun.domain.dto;
+package com.scheduler.hyun.domain.dto.user;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -8,15 +9,16 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ScheduleUpdateRequest {
+public class UserUpdateRequest {
 
     @NotNull
-    private Long scheduleId;
+    private Long userId;
 
     @NotBlank
-    @Size(min=1, max=100)
-    private String scheduleTitle;
+    @Size(min = 2, max = 10)
+    private String userName;
 
+    @Email
     @NotBlank
-    private String scheduleContent;
+    private String userEmail;
 }
