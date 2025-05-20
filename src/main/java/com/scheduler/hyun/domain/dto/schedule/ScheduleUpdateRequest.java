@@ -1,4 +1,4 @@
-package com.scheduler.hyun.domain.dto;
+package com.scheduler.hyun.domain.dto.schedule;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,7 +14,7 @@ public class ScheduleUpdateRequest {
     private Long scheduleId;
 
     @NotBlank
-    @Size(min=1, max=100)
+    @Size(min = 1, max = 100)
     private String scheduleTitle;
 
     @NotBlank

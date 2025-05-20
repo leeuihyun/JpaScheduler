@@ -1,4 +1,4 @@
-package com.scheduler.hyun.domain.dto;
+package com.scheduler.hyun.domain.dto.schedule;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,5 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ScheduleIdResponse {
+
     private Long scheduleId;
 }

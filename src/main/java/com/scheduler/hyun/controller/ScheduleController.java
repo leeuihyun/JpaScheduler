@@ -1,9 +1,9 @@
 package com.scheduler.hyun.controller;
 
-import com.scheduler.hyun.domain.dto.ScheduleCreateRequest;
-import com.scheduler.hyun.domain.dto.ScheduleIdResponse;
-import com.scheduler.hyun.domain.dto.ScheduleUpdateRequest;
-import com.scheduler.hyun.domain.entity.Schedule;
+import com.scheduler.hyun.domain.dto.schedule.ScheduleCreateRequest;
+import com.scheduler.hyun.domain.dto.schedule.ScheduleIdResponse;
+import com.scheduler.hyun.domain.dto.schedule.ScheduleResponse;
+import com.scheduler.hyun.domain.dto.schedule.ScheduleUpdateRequest;
 import com.scheduler.hyun.service.ScheduleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,14 +27,15 @@ public class ScheduleController {
 
     @PostMapping("/create")
     public ResponseEntity<ScheduleIdResponse> createSchedule
-        (@RequestBody ScheduleCreateRequest scheduleCreateRequest) {
+        (@RequestBody ScheduleCreateRequest scheduleCreateRequest) throws Exception {
         Long scheduleId = scheduleService.createSchedule(scheduleCreateRequest);
         return ResponseEntity.ok().body(new ScheduleIdResponse(scheduleId));
     }
 
     @GetMapping("/search/{scheduleId}")
-    public ResponseEntity<Schedule> searchSchedule(@PathVariable Long scheduleId) throws Exception {
-        Schedule schedule = scheduleService.findScheduleById(scheduleId);
+    public ResponseEntity<ScheduleResponse> searchSchedule(@PathVariable Long scheduleId)
+        throws Exception {
+        ScheduleResponse schedule = scheduleService.findScheduleById(scheduleId);
         return ResponseEntity.ok().body(schedule);
     }
 

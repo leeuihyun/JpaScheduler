@@ -1,4 +1,4 @@
-package com.scheduler.hyun.domain.dto;
+package com.scheduler.hyun.domain.dto.schedule;
 
 import com.scheduler.hyun.domain.entity.Schedule;
 import com.scheduler.hyun.domain.entity.User;
