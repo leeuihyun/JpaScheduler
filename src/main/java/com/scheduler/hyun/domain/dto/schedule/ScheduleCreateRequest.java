@@ -1,7 +1,9 @@
 package com.scheduler.hyun.domain.dto;
 
 import com.scheduler.hyun.domain.entity.Schedule;
+import com.scheduler.hyun.domain.entity.User;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,21 +12,21 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ScheduleCreateRequest {
 
-    @NotBlank
-    private String userName;
+    @NotNull
+    private Long userId;
 
     @NotBlank
-    @Size(min=1, max=100)
+    @Size(min = 1, max = 100)
     private String scheduleTitle;
 
     @NotBlank
     private String scheduleContent;
 
-    public Schedule toEntity() {
+    public Schedule toEntity(User user) {
         return Schedule.builder()
             .scheduleTitle(this.scheduleTitle)
             .scheduleContent(this.scheduleContent)
-            .userName(this.userName)
+            .user(user)
             .build();
     }
 }
