@@ -23,12 +23,12 @@ public abstract class BaseTimeEntity {
 
     @PrePersist
     void onPrePersist() {
-        this.createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        this.createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         this.updatedAt = createdAt;
     }
 
     @PreUpdate
     void onPreUpdate() {
-        this.updatedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        this.updatedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 }
