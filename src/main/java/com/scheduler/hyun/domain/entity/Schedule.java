@@ -31,10 +31,10 @@ public class Schedule extends BaseTimeEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "schedule_title")
+    @Column(name = "schedule_title", nullable = false)
     private String scheduleTitle;
 
-    @Column(name = "schedule_content")
+    @Column(name = "schedule_content", nullable = false)
     private String scheduleContent;
 
     public void updateSchedule(ScheduleUpdateRequest scheduleUpdateRequest) {
