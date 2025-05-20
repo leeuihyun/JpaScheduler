@@ -24,3 +24,17 @@ hs_err_pid*
 replay_pid*
 
 .idea/
+build/
+
+.gradle
+.gradle/
+.gradle/**/
+
+**/build/
+!src/**/build/
+
+tmp/
+*.tmp
+
+/out/
+/build/tmp/
