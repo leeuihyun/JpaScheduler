@@ -2,9 +2,11 @@ package com.scheduler.hyun.controller;
 
 import com.scheduler.hyun.domain.dto.user.UserCreateRequest;
 import com.scheduler.hyun.domain.dto.user.UserIdResponse;
+import com.scheduler.hyun.domain.dto.user.UserLoginRequest;
 import com.scheduler.hyun.domain.dto.user.UserResponse;
 import com.scheduler.hyun.domain.dto.user.UserUpdateRequest;
 import com.scheduler.hyun.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -44,17 +46,35 @@ public class UserController {
 
     @PutMapping("/update")
     public ResponseEntity<UserIdResponse> updateUser(
-        @RequestBody @Valid UserUpdateRequest userUpdateRequest)
+        @RequestBody @Valid UserUpdateRequest userUpdateRequest,
+        HttpServletRequest httpServletRequest)
         throws Exception {
 
-        Long userId = userService.updateUser(userUpdateRequest);
+        Long userId = userService.updateUser(userUpdateRequest, httpServletRequest);
         return ResponseEntity.ok().body(new UserIdResponse(userId));
     }
 
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<UserIdResponse> deleteUser(@PathVariable Long userId) throws Exception {
+    public ResponseEntity<UserIdResponse> deleteUser(@PathVariable Long userId,
+        HttpServletRequest httpServletRequest) throws Exception {
 
-        Long deletedUserId = userService.deleteUser(userId);
+        Long deletedUserId = userService.deleteUser(userId, httpServletRequest);
         return ResponseEntity.ok().body(new UserIdResponse(deletedUserId));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserResponse> logIn(@RequestBody UserLoginRequest userLoginRequest,
+        HttpServletRequest httpServletRequest)
+        throws Exception {
+
+        UserResponse user = userService.logIn(userLoginRequest, httpServletRequest);
+        return ResponseEntity.ok().body(user);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<UserIdResponse> logOut(HttpServletRequest httpServletRequest) {
+
+        Long logoutUserId = userService.logOut(httpServletRequest);
+        return ResponseEntity.ok().body(new UserIdResponse(logoutUserId));
     }
 }

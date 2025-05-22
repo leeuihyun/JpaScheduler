@@ -1,5 +1,6 @@
 package com.scheduler.hyun.domain.dto.schedule;
 
+import com.scheduler.hyun.domain.dto.user.model.UserIdModel;
 import com.scheduler.hyun.domain.entity.Schedule;
 import com.scheduler.hyun.domain.entity.User;
 import jakarta.validation.constraints.NotBlank;
@@ -10,7 +11,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ScheduleCreateRequest {
+public class ScheduleCreateRequest implements UserIdModel {
 
     @NotNull
     private Long userId;

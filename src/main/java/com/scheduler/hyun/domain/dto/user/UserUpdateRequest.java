@@ -1,5 +1,6 @@
 package com.scheduler.hyun.domain.dto.user;
 
+import com.scheduler.hyun.domain.dto.user.model.UserIdModel;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +10,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UserUpdateRequest {
+public class UserUpdateRequest implements UserIdModel {
 
     @NotNull
     private Long userId;
