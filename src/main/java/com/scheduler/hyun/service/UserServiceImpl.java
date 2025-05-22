@@ -1,26 +1,30 @@
 package com.scheduler.hyun.service;
 
 import com.scheduler.hyun.domain.dto.user.UserCreateRequest;
+import com.scheduler.hyun.domain.dto.user.UserLoginRequest;
 import com.scheduler.hyun.domain.dto.user.UserResponse;
 import com.scheduler.hyun.domain.dto.user.UserUpdateRequest;
 import com.scheduler.hyun.domain.entity.User;
 import com.scheduler.hyun.repository.UserJpaRepository;
-import java.util.Optional;
+import com.scheduler.hyun.utils.AuthUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserJpaRepository userJpaRepository;
-
-    public UserServiceImpl(UserJpaRepository userJpaRepository) {
-        this.userJpaRepository = userJpaRepository;
-    }
+    private final AuthUtils authUtils;
 
     @Override
     public Long createUser(UserCreateRequest userCreateRequest) {
+
         UserResponse user = userJpaRepository.save(userCreateRequest.toEntity()).toUserDto();
+
         return user.getUserId();
     }
 
@@ -33,31 +37,51 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public Long updateUser(UserUpdateRequest userUpdateRequest) throws Exception {
+    public Long updateUser(UserUpdateRequest userUpdateRequest,
+        HttpServletRequest httpServletRequest) throws Exception {
 
-        Optional<User> optionalUser = userJpaRepository.findById(userUpdateRequest.getUserId());
+        User user = authUtils.authorizeUser(userUpdateRequest, httpServletRequest);
+        user.updateUser(userUpdateRequest);
 
-        if (optionalUser.isEmpty()) {
-            throw new Exception("존재하지 않는 유저입니다.");
-        } else {
-            User user = optionalUser.get();
-            user.updateUser(userUpdateRequest);
-            return user.getUserId();
-        }
+        return user.getUserId();
     }
 
     @Transactional
     @Override
-    public Long deleteUser(Long userId) throws Exception {
+    public Long deleteUser(Long userId, HttpServletRequest httpServletRequest) throws Exception {
 
-        Optional<User> optionalUser = userJpaRepository.findById(userId);
+        User user = authUtils.authorizeUser(userId, httpServletRequest);
+        userJpaRepository.delete(user);
 
-        if (optionalUser.isEmpty()) {
-            throw new Exception("존재하지 않는 유저입니다.");
-        } else {
-            User user = optionalUser.get();
-            userJpaRepository.delete(user);
-            return user.getUserId();
+        return user.getUserId();
+    }
+
+    @Override
+    public UserResponse logIn(UserLoginRequest userLoginRequest,
+        HttpServletRequest httpServletRequest) throws Exception {
+
+        User user = userJpaRepository.findByUserEmail(userLoginRequest.getUserEmail())
+            .orElseThrow(() -> new Exception("존재하지 않는 유저입니다."));
+
+        if (!userLoginRequest.getUserPassword().equals(user.getUserPassword())) {
+            throw new Exception("올바르지 않은 비밀번호입니다.");
         }
+
+        HttpSession session = httpServletRequest.getSession(true);
+        session.setAttribute("userId", user.getUserId());
+        session.setMaxInactiveInterval(1800);
+
+        return user.toUserDto();
+    }
+
+    @Override
+    public Long logOut(HttpServletRequest httpServletRequest) {
+
+        HttpSession session = httpServletRequest.getSession(false);
+        Long userId = (Long) session.getAttribute("userId");
+
+        session.invalidate();
+
+        return userId;
     }
 }
