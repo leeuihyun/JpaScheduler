@@ -14,9 +14,10 @@ public class ScheduleUpdateRequest {
     private Long scheduleId;
 
     @NotBlank
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 10)
     private String scheduleTitle;
 
     @NotBlank
+    @Size(min = 1)
     private String scheduleContent;
 }

@@ -8,12 +8,12 @@ import jakarta.servlet.http.HttpServletRequest;
 public interface ScheduleService {
 
     Long createSchedule(ScheduleCreateRequest scheduleCreateRequest,
-        HttpServletRequest httpServletRequest) throws Exception;
+        HttpServletRequest httpServletRequest);
 
-    ScheduleResponse findScheduleById(Long scheduleId) throws Exception;
+    ScheduleResponse findScheduleById(Long scheduleId);
 
     Long updateSchedule(ScheduleUpdateRequest scheduleUpdateRequest,
-        HttpServletRequest httpServletRequest) throws Exception;
+        HttpServletRequest httpServletRequest);
 
-    Long deleteSchedule(Long scheduleId, HttpServletRequest httpServletRequest) throws Exception;
+    Long deleteSchedule(Long scheduleId, HttpServletRequest httpServletRequest);
 }
