@@ -6,6 +6,7 @@ import com.scheduler.hyun.domain.dto.schedule.ScheduleResponse;
 import com.scheduler.hyun.domain.dto.schedule.ScheduleUpdateRequest;
 import com.scheduler.hyun.service.ScheduleService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,16 +30,15 @@ public class ScheduleController {
 
     @PostMapping("/create")
     public ResponseEntity<ScheduleIdResponse> createSchedule
-        (@RequestBody ScheduleCreateRequest scheduleCreateRequest,
-            HttpServletRequest httpServletRequest) throws Exception {
+        (@RequestBody @Valid ScheduleCreateRequest scheduleCreateRequest,
+            HttpServletRequest httpServletRequest) {
 
         Long scheduleId = scheduleService.createSchedule(scheduleCreateRequest, httpServletRequest);
         return ResponseEntity.ok().body(new ScheduleIdResponse(scheduleId));
     }
 
     @GetMapping("/search/{scheduleId}")
-    public ResponseEntity<ScheduleResponse> searchSchedule(@PathVariable Long scheduleId)
-        throws Exception {
+    public ResponseEntity<ScheduleResponse> searchSchedule(@PathVariable Long scheduleId) {
 
         ScheduleResponse schedule = scheduleService.findScheduleById(scheduleId);
         return ResponseEntity.ok().body(schedule);
@@ -46,8 +46,8 @@ public class ScheduleController {
 
     @PutMapping("/update")
     public ResponseEntity<ScheduleIdResponse> updateSchedule
-        (@RequestBody ScheduleUpdateRequest scheduleUpdateRequest,
-            HttpServletRequest httpServletRequest) throws Exception {
+        (@RequestBody @Valid ScheduleUpdateRequest scheduleUpdateRequest,
+            HttpServletRequest httpServletRequest) {
 
         Long scheduleId = scheduleService.updateSchedule(scheduleUpdateRequest, httpServletRequest);
         return ResponseEntity.ok().body(new ScheduleIdResponse(scheduleId));
@@ -55,10 +55,9 @@ public class ScheduleController {
 
     @DeleteMapping("/delete/{scheduleId}")
     public ResponseEntity<?> deleteSchedule(@PathVariable Long scheduleId,
-        HttpServletRequest httpServletRequest) throws Exception {
+        HttpServletRequest httpServletRequest) {
 
         Long deletedScheduleId = scheduleService.deleteSchedule(scheduleId, httpServletRequest);
         return ResponseEntity.ok().body(new ScheduleIdResponse(deletedScheduleId));
     }
-
 }
