@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@Validated
 @RequestMapping("/api/user")
 public class UserController {
 
@@ -41,7 +43,7 @@ public class UserController {
 
     @GetMapping("/search/{userId}")
     public ResponseEntity<UserResponse> searchUser(
-        @PathVariable @NotNull @Min(value = 1) Long userId) {
+        @PathVariable @NotNull @Min(value = 0) Long userId) {
 
         UserResponse user = userService.searchUser(userId);
         return ResponseEntity.ok().body(user);
