@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @GetMapping("/search/{userId}")
-    public ResponseEntity<UserResponse> searchUser(@PathVariable Long userId) throws Exception {
+    public ResponseEntity<UserResponse> searchUser(@PathVariable Long userId) {
 
         UserResponse user = userService.searchUser(userId);
         return ResponseEntity.ok().body(user);
@@ -47,8 +47,7 @@ public class UserController {
     @PutMapping("/update")
     public ResponseEntity<UserIdResponse> updateUser(
         @RequestBody @Valid UserUpdateRequest userUpdateRequest,
-        HttpServletRequest httpServletRequest)
-        throws Exception {
+        HttpServletRequest httpServletRequest) {
 
         Long userId = userService.updateUser(userUpdateRequest, httpServletRequest);
         return ResponseEntity.ok().body(new UserIdResponse(userId));
@@ -56,16 +55,15 @@ public class UserController {
 
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<UserIdResponse> deleteUser(@PathVariable Long userId,
-        HttpServletRequest httpServletRequest) throws Exception {
+        HttpServletRequest httpServletRequest) {
 
         Long deletedUserId = userService.deleteUser(userId, httpServletRequest);
         return ResponseEntity.ok().body(new UserIdResponse(deletedUserId));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponse> logIn(@RequestBody UserLoginRequest userLoginRequest,
-        HttpServletRequest httpServletRequest)
-        throws Exception {
+    public ResponseEntity<UserResponse> logIn(@RequestBody @Valid UserLoginRequest userLoginRequest,
+        HttpServletRequest httpServletRequest) {
 
         UserResponse user = userService.logIn(userLoginRequest, httpServletRequest);
         return ResponseEntity.ok().body(user);
