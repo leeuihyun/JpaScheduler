@@ -17,11 +17,10 @@ public class ScheduleCreateRequest implements UserIdModel {
     private Long userId;
 
     @NotBlank
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 100)
     private String scheduleTitle;
 
     @NotBlank
-    @Size(min = 1)
     private String scheduleContent;
 
     public Schedule toEntity(User user) {

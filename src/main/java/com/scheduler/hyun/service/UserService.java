@@ -10,13 +10,15 @@ public interface UserService {
 
     Long createUser(UserCreateRequest userCreateRequest);
 
-    UserResponse searchUser(Long userId);
+    UserResponse searchUser(Long userId) throws Exception;
 
-    Long updateUser(UserUpdateRequest userUpdateRequest, HttpServletRequest httpServletRequest);
+    Long updateUser(UserUpdateRequest userUpdateRequest, HttpServletRequest httpServletRequest)
+        throws Exception;
 
-    Long deleteUser(Long userId, HttpServletRequest httpServletRequest);
+    Long deleteUser(Long userId, HttpServletRequest httpServletRequest) throws Exception;
 
-    UserResponse logIn(UserLoginRequest userLoginRequest, HttpServletRequest httpServletRequest);
+    UserResponse logIn(UserLoginRequest userLoginRequest, HttpServletRequest httpServletRequest)
+        throws Exception;
 
     Long logOut(HttpServletRequest httpServletRequest);
 }

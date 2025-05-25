@@ -5,8 +5,6 @@ import com.scheduler.hyun.domain.dto.user.UserLoginRequest;
 import com.scheduler.hyun.domain.dto.user.UserResponse;
 import com.scheduler.hyun.domain.dto.user.UserUpdateRequest;
 import com.scheduler.hyun.domain.entity.User;
-import com.scheduler.hyun.enums.ErrorEnum;
-import com.scheduler.hyun.exception.ScheduleException;
 import com.scheduler.hyun.repository.UserJpaRepository;
 import com.scheduler.hyun.utils.AuthUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,16 +29,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse searchUser(Long userId) {
+    public UserResponse searchUser(Long userId) throws Exception {
 
         return userJpaRepository.findById(userId)
-            .orElseThrow(() -> new ScheduleException(ErrorEnum.NO_EXIST_USER)).toUserDto();
+            .orElseThrow(() -> new Exception("존재하지 않는 유저입니다.")).toUserDto();
     }
 
     @Transactional
     @Override
     public Long updateUser(UserUpdateRequest userUpdateRequest,
-        HttpServletRequest httpServletRequest) {
+        HttpServletRequest httpServletRequest) throws Exception {
 
         User user = authUtils.authorizeUser(userUpdateRequest, httpServletRequest);
         user.updateUser(userUpdateRequest);
@@ -50,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public Long deleteUser(Long userId, HttpServletRequest httpServletRequest) {
+    public Long deleteUser(Long userId, HttpServletRequest httpServletRequest) throws Exception {
 
         User user = authUtils.authorizeUser(userId, httpServletRequest);
         userJpaRepository.delete(user);
@@ -60,13 +58,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse logIn(UserLoginRequest userLoginRequest,
-        HttpServletRequest httpServletRequest) {
+        HttpServletRequest httpServletRequest) throws Exception {
 
         User user = userJpaRepository.findByUserEmail(userLoginRequest.getUserEmail())
-            .orElseThrow(() -> new ScheduleException(ErrorEnum.NO_EXIST_USER));
+            .orElseThrow(() -> new Exception("존재하지 않는 유저입니다."));
 
         if (!userLoginRequest.getUserPassword().equals(user.getUserPassword())) {
-            throw new ScheduleException(ErrorEnum.PASSWORD_MISMATCH);
+            throw new Exception("올바르지 않은 비밀번호입니다.");
         }
 
         HttpSession session = httpServletRequest.getSession(true);

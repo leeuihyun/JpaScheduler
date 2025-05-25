@@ -16,10 +16,10 @@ public class UserUpdateRequest implements UserIdModel {
     private Long userId;
 
     @NotBlank
-    @Size(min = 1, max = 4)
+    @Size(min = 2, max = 10)
     private String userName;
 
-    @NotBlank
     @Email
+    @NotBlank
     private String userEmail;
 }

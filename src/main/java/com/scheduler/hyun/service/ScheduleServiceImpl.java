@@ -5,8 +5,6 @@ import com.scheduler.hyun.domain.dto.schedule.ScheduleResponse;
 import com.scheduler.hyun.domain.dto.schedule.ScheduleUpdateRequest;
 import com.scheduler.hyun.domain.entity.Schedule;
 import com.scheduler.hyun.domain.entity.User;
-import com.scheduler.hyun.enums.ErrorEnum;
-import com.scheduler.hyun.exception.ScheduleException;
 import com.scheduler.hyun.repository.ScheduleJpaRepository;
 import com.scheduler.hyun.utils.AuthUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +23,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     @Override
     public Long createSchedule(ScheduleCreateRequest scheduleCreateRequest,
-        HttpServletRequest httpServletRequest) {
+        HttpServletRequest httpServletRequest) throws Exception {
 
         User user = authUtils.authorizeUser(scheduleCreateRequest, httpServletRequest);
         Schedule schedule = scheduleJpaRepository.save(scheduleCreateRequest.toEntity(user));
@@ -34,21 +32,21 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public ScheduleResponse findScheduleById(Long scheduleId) {
+    public ScheduleResponse findScheduleById(Long scheduleId) throws Exception {
         return scheduleJpaRepository.findById(scheduleId)
-            .orElseThrow(() -> new ScheduleException(ErrorEnum.NO_EXIST_SCHEDULE)).toScheduleDto();
+            .orElseThrow(() -> new Exception("존재하지 않는 스케줄입니다.")).toScheduleDto();
     }
 
     @Transactional
     @Override
     public Long updateSchedule(ScheduleUpdateRequest scheduleUpdateRequest,
-        HttpServletRequest httpServletRequest) {
+        HttpServletRequest httpServletRequest) throws Exception {
 
         Optional<Schedule> optionalSchedule = scheduleJpaRepository
             .findById(scheduleUpdateRequest.getScheduleId());
 
         if (optionalSchedule.isEmpty()) {
-            throw new ScheduleException(ErrorEnum.NO_EXIST_SCHEDULE);
+            throw new Exception("존재하지 않는 스케줄입니다.");
         }
 
         Schedule schedule = optionalSchedule.get();
@@ -60,9 +58,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Transactional
     @Override
-    public Long deleteSchedule(Long scheduleId, HttpServletRequest httpServletRequest) {
+    public Long deleteSchedule(Long scheduleId, HttpServletRequest httpServletRequest)
+        throws Exception {
         Schedule schedule = scheduleJpaRepository.findById(scheduleId)
-            .orElseThrow(() -> new ScheduleException(ErrorEnum.NO_EXIST_SCHEDULE));
+            .orElseThrow(() -> new Exception("존재하지 않는 스케줄입니다."));
 
         authUtils.authorizeUser(schedule.getUser().getUserId(), httpServletRequest);
         scheduleJpaRepository.delete(schedule);

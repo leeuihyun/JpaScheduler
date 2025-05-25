@@ -12,15 +12,15 @@ import lombok.Getter;
 public class UserCreateRequest {
 
     @NotBlank
-    @Size(min = 1, max = 4)
+    @Size(min = 2, max = 10)
     private String userName;
 
     @NotBlank
-    @Size(min = 1, max = 50)
+    @Size(min = 2, max = 100)
     private String userPassword;
 
-    @NotBlank
     @Email
+    @NotBlank
     private String userEmail;
 
     public User toEntity() {
