@@ -8,6 +8,8 @@ import com.scheduler.hyun.domain.dto.user.UserUpdateRequest;
 import com.scheduler.hyun.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,7 +40,8 @@ public class UserController {
     }
 
     @GetMapping("/search/{userId}")
-    public ResponseEntity<UserResponse> searchUser(@PathVariable Long userId) {
+    public ResponseEntity<UserResponse> searchUser(
+        @PathVariable @NotNull @Min(value = 1) Long userId) {
 
         UserResponse user = userService.searchUser(userId);
         return ResponseEntity.ok().body(user);
@@ -54,7 +57,8 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<UserIdResponse> deleteUser(@PathVariable Long userId,
+    public ResponseEntity<UserIdResponse> deleteUser(
+        @PathVariable @NotNull @Min(value = 0) Long userId,
         HttpServletRequest httpServletRequest) {
 
         Long deletedUserId = userService.deleteUser(userId, httpServletRequest);
