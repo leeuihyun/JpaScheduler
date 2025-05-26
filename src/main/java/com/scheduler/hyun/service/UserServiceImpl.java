@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     public Long updateUser(UserUpdateRequest userUpdateRequest,
         HttpServletRequest httpServletRequest) {
 
-        User user = authUtils.authorizeUser(userUpdateRequest, httpServletRequest);
+        User user = authUtils.authorizeUser(userUpdateRequest.getUserId(), httpServletRequest);
         user.updateUser(userUpdateRequest);
 
         return user.getUserId();
