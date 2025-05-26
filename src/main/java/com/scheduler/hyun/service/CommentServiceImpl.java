@@ -43,6 +43,7 @@ public class CommentServiceImpl implements CommentService {
         return commentJpaRepository.save(comment).getCommentId();
     }
 
+    @Transactional
     @Override
     public CommentResponse findCommentById(Long commentId) {
         Comment comment = commentJpaRepository.findById(commentId)
@@ -58,6 +59,7 @@ public class CommentServiceImpl implements CommentService {
             .build();
     }
 
+    @Transactional
     @Override
     public Long updateComment(CommentUpdateRequest commentUpdateRequest,
         HttpServletRequest httpServletRequest) {
@@ -71,6 +73,7 @@ public class CommentServiceImpl implements CommentService {
         return comment.getCommentId();
     }
 
+    @Transactional
     @Override
     public Long deleteComment(Long commentId, HttpServletRequest httpServletRequest) {
         Comment comment = commentJpaRepository.findById(commentId)
