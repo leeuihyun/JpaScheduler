@@ -12,6 +12,8 @@ import com.scheduler.hyun.utils.AuthUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,5 +85,19 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleJpaRepository.delete(schedule);
 
         return schedule.getScheduleId();
+    }
+
+    @Transactional
+    @Override
+    public Page<ScheduleResponse> findScheduleList(Pageable pageable) {
+        Page<Schedule> pageSchedule = scheduleJpaRepository.findAll(pageable);
+        return pageSchedule.map(schedule -> ScheduleResponse.builder()
+            .scheduleId(schedule.getScheduleId())
+            .scheduleTitle(schedule.getScheduleTitle())
+            .scheduleContent(schedule.getScheduleContent())
+            .createdAt(schedule.getCreatedAt())
+            .updatedAt(schedule.getUpdatedAt())
+            .userId(schedule.getUser().getUserId())
+            .build());
     }
 }

@@ -10,6 +10,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -53,6 +57,16 @@ public class ScheduleController {
 
         Long scheduleId = scheduleService.updateSchedule(scheduleUpdateRequest, httpServletRequest);
         return ResponseEntity.ok().body(new ScheduleIdResponse(scheduleId));
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<Page<ScheduleResponse>> boardListPage(
+        @RequestParam(defaultValue = "0") Integer pageNumber,
+        @RequestParam(defaultValue = "10") Integer size) {
+        Pageable pageable = PageRequest.of(pageNumber, size);
+        Page<ScheduleResponse> scheduleList = scheduleService.findScheduleList(pageable);
+
+        return ResponseEntity.ok().body(scheduleList);
     }
 
     @DeleteMapping("/delete/{scheduleId}")

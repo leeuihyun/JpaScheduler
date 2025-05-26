@@ -4,6 +4,8 @@ import com.scheduler.hyun.domain.dto.schedule.ScheduleCreateRequest;
 import com.scheduler.hyun.domain.dto.schedule.ScheduleResponse;
 import com.scheduler.hyun.domain.dto.schedule.ScheduleUpdateRequest;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ScheduleService {
 
@@ -16,4 +18,6 @@ public interface ScheduleService {
         HttpServletRequest httpServletRequest);
 
     Long deleteSchedule(Long scheduleId, HttpServletRequest httpServletRequest);
+
+    Page<ScheduleResponse> findScheduleList(Pageable pageable);
 }
