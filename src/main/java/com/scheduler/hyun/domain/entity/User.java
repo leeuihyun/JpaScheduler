@@ -41,6 +41,10 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
     public void updateUser(UserUpdateRequest userUpdateRequest) {
         this.userName = userUpdateRequest.getUserName();
         this.userEmail = userUpdateRequest.getUserEmail();

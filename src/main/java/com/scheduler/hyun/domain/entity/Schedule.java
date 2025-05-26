@@ -1,6 +1,8 @@
 package com.scheduler.hyun.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.scheduler.hyun.domain.dto.schedule.ScheduleUpdateRequest;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,6 +11,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,6 +40,10 @@ public class Schedule extends BaseTimeEntity {
 
     @Column(name = "schedule_content", nullable = false)
     private String scheduleContent;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     public void updateSchedule(ScheduleUpdateRequest scheduleUpdateRequest) {
         this.scheduleTitle = scheduleUpdateRequest.getScheduleTitle();
