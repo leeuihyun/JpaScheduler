@@ -35,7 +35,7 @@
 
 ## 📌 ERD
 
-![ERD](src/main/resources/static/img/lv2img.png)
+![ERD](src/main/resources/static/img/lv7img.png)
 ---
 
 ## 📘 API 명세서 요약
@@ -300,4 +300,110 @@
   "userId": Long
 }
 
+```
+
+### 9. 댓글 생성
+
+- **URL** : `/api/comment/create`
+- **Method** : `POST`
+
+#### 9-1. Request
+
+- **Request Body**
+
+```json
+{
+  "userId": Long,
+  "scheduleId": Long,
+  "commentContent": String
+}
+```
+
+#### 9-2. Response
+
+- **Response Body**
+
+```json
+{
+  "commentId": Long
+}
+```
+
+---
+
+### 10. 댓글 조회
+
+- **URL** : `/api/comment/search`
+- **Method** : `GET`
+
+#### 10-1. Request
+
+- **PathVariable**
+    - **URL 예시** : `/api/comment/search/{commentId}`
+
+#### 10-2. Response
+
+- **Response Body**
+
+```json
+{
+  "commentId": Long,
+  "commentContent": String,
+  "userId": Long,
+  "scheduleId": Long,
+  "createdAt": Timestamp(yyyy-MM-dd
+  HH: mm),
+  "updatedAt": Timestamp(yyyy-MM-dd
+  HH: mm)
+}
+```
+
+---
+
+### 11. 댓글 수정
+
+- **URL** : `/api/comment/update`
+- **Method** : `PUT`
+
+#### 11-1. Request
+
+- **Request Body**
+
+```json
+{
+  "commentId": Long,
+  "commentContent": String
+}
+```
+
+#### 11-2. Response
+
+- **Response Body**
+
+```json
+{
+  "commentId": Long
+}
+```
+
+---
+
+### 12. 댓글 삭제
+
+- **URL** : `/api/comment/delete`
+- **Method** : `DELETE`
+
+#### 12-1. Request
+
+- **PathVariable**
+    - **URL 예시** : `/api/comment/delete/{commentId}`
+
+#### 12-2. Response
+
+- **Response Body**
+
+```json
+{
+  "commentId": Long
+}
 ```

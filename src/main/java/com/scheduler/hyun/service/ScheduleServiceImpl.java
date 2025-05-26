@@ -27,7 +27,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public Long createSchedule(ScheduleCreateRequest scheduleCreateRequest,
         HttpServletRequest httpServletRequest) {
 
-        User user = authUtils.authorizeUser(scheduleCreateRequest, httpServletRequest);
+        User user = authUtils.authorizeUser(scheduleCreateRequest.getUserId(), httpServletRequest);
 
         Schedule schedule = Schedule.builder()
             .scheduleTitle(scheduleCreateRequest.getScheduleTitle())

@@ -11,7 +11,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @Validated
 @RequiredArgsConstructor
 @RequestMapping("/api/schedule")
@@ -56,7 +56,8 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/delete/{scheduleId}")
-    public ResponseEntity<?> deleteSchedule(@PathVariable @NotNull @Min(value = 0) Long scheduleId,
+    public ResponseEntity<ScheduleIdResponse> deleteSchedule(
+        @PathVariable @NotNull @Min(value = 0) Long scheduleId,
         HttpServletRequest httpServletRequest) {
 
         Long deletedScheduleId = scheduleService.deleteSchedule(scheduleId, httpServletRequest);
