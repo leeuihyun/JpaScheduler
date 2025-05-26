@@ -35,7 +35,7 @@
 
 ## 📌 ERD
 
-![ERD](src/main/resources/static/img/lv2img.png)
+![ERD](src/main/resources/static/img/lv7img.png)
 ---
 
 ## 📘 API 명세서 요약
