@@ -1,5 +1,6 @@
 package com.scheduler.hyun.service;
 
+import com.scheduler.hyun.config.PasswordEncoder;
 import com.scheduler.hyun.domain.dto.user.UserCreateRequest;
 import com.scheduler.hyun.domain.dto.user.UserLoginRequest;
 import com.scheduler.hyun.domain.dto.user.UserResponse;
@@ -19,22 +20,35 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    private final PasswordEncoder passwordEncoder;
     private final UserJpaRepository userJpaRepository;
     private final AuthUtils authUtils;
 
     @Override
     public Long createUser(UserCreateRequest userCreateRequest) {
 
-        UserResponse user = userJpaRepository.save(userCreateRequest.toEntity()).toUserDto();
+        User userEntity = User.builder()
+            .userName(userCreateRequest.getUserName())
+            .userEmail(userCreateRequest.getUserEmail())
+            .userPassword(passwordEncoder.encode(userCreateRequest.getUserPassword()))
+            .build();
 
-        return user.getUserId();
+        return userJpaRepository.save(userEntity).getUserId();
     }
 
     @Override
     public UserResponse searchUser(Long userId) {
 
-        return userJpaRepository.findById(userId)
-            .orElseThrow(() -> new ScheduleException(ErrorEnum.NO_EXIST_USER)).toUserDto();
+        User user = userJpaRepository.findById(userId)
+            .orElseThrow(() -> new ScheduleException(ErrorEnum.NO_EXIST_USER));
+
+        return UserResponse.builder()
+            .userId(user.getUserId())
+            .userName(user.getUserName())
+            .userEmail(user.getUserEmail())
+            .createdAt(user.getCreatedAt())
+            .updatedAt(user.getUpdatedAt())
+            .build();
     }
 
     @Transactional
@@ -65,7 +79,7 @@ public class UserServiceImpl implements UserService {
         User user = userJpaRepository.findByUserEmail(userLoginRequest.getUserEmail())
             .orElseThrow(() -> new ScheduleException(ErrorEnum.NO_EXIST_USER));
 
-        if (!userLoginRequest.getUserPassword().equals(user.getUserPassword())) {
+        if (!passwordEncoder.matches(userLoginRequest.getUserPassword(), user.getUserPassword())) {
             throw new ScheduleException(ErrorEnum.PASSWORD_MISMATCH);
         }
 
@@ -73,7 +87,13 @@ public class UserServiceImpl implements UserService {
         session.setAttribute("userId", user.getUserId());
         session.setMaxInactiveInterval(1800);
 
-        return user.toUserDto();
+        return UserResponse.builder()
+            .userId(user.getUserId())
+            .userName(user.getUserName())
+            .userEmail(user.getUserEmail())
+            .createdAt(user.getCreatedAt())
+            .updatedAt(user.getUpdatedAt())
+            .build();
     }
 
     @Override
