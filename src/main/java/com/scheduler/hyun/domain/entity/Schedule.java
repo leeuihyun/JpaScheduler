@@ -1,6 +1,5 @@
 package com.scheduler.hyun.domain.entity;
 
-import com.scheduler.hyun.domain.dto.schedule.ScheduleResponse;
 import com.scheduler.hyun.domain.dto.schedule.ScheduleUpdateRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,16 +39,5 @@ public class Schedule extends BaseTimeEntity {
     public void updateSchedule(ScheduleUpdateRequest scheduleUpdateRequest) {
         this.scheduleTitle = scheduleUpdateRequest.getScheduleTitle();
         this.scheduleContent = scheduleUpdateRequest.getScheduleContent();
-    }
-
-    public ScheduleResponse toScheduleDto() {
-        return ScheduleResponse.builder()
-            .scheduleId(this.scheduleId)
-            .scheduleTitle(this.scheduleTitle)
-            .scheduleContent(this.scheduleContent)
-            .userId(this.user.getUserId())
-            .createdAt(this.getCreatedAt())
-            .updatedAt(this.getUpdatedAt())
-            .build();
     }
 }

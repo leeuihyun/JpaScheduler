@@ -28,15 +28,30 @@ public class ScheduleServiceImpl implements ScheduleService {
         HttpServletRequest httpServletRequest) {
 
         User user = authUtils.authorizeUser(scheduleCreateRequest, httpServletRequest);
-        Schedule schedule = scheduleJpaRepository.save(scheduleCreateRequest.toEntity(user));
 
-        return schedule.getScheduleId();
+        Schedule schedule = Schedule.builder()
+            .scheduleTitle(scheduleCreateRequest.getScheduleTitle())
+            .scheduleContent(scheduleCreateRequest.getScheduleContent())
+            .user(user)
+            .build();
+
+        return scheduleJpaRepository.save(schedule).getScheduleId();
     }
 
     @Override
     public ScheduleResponse findScheduleById(Long scheduleId) {
-        return scheduleJpaRepository.findById(scheduleId)
-            .orElseThrow(() -> new ScheduleException(ErrorEnum.NO_EXIST_SCHEDULE)).toScheduleDto();
+
+        Schedule schedule = scheduleJpaRepository.findById(scheduleId)
+            .orElseThrow(() -> new ScheduleException(ErrorEnum.NO_EXIST_SCHEDULE));
+
+        return ScheduleResponse.builder()
+            .scheduleId(schedule.getScheduleId())
+            .scheduleTitle(schedule.getScheduleTitle())
+            .scheduleContent(schedule.getScheduleContent())
+            .userId(schedule.getUser().getUserId())
+            .createdAt(schedule.getCreatedAt())
+            .updatedAt(schedule.getUpdatedAt())
+            .build();
     }
 
     @Transactional

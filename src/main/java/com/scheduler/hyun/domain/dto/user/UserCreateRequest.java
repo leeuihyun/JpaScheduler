@@ -1,6 +1,5 @@
 package com.scheduler.hyun.domain.dto.user;
 
-import com.scheduler.hyun.domain.entity.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -22,12 +21,4 @@ public class UserCreateRequest {
     @NotBlank
     @Email
     private String userEmail;
-
-    public User toEntity() {
-        return User.builder()
-            .userName(this.userName)
-            .userEmail(this.userEmail)
-            .userPassword(this.userPassword)
-            .build();
-    }
 }
