@@ -1,7 +1,6 @@
 package com.scheduler.hyun.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.scheduler.hyun.domain.dto.user.UserResponse;
 import com.scheduler.hyun.domain.dto.user.UserUpdateRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -45,15 +44,5 @@ public class User extends BaseTimeEntity {
     public void updateUser(UserUpdateRequest userUpdateRequest) {
         this.userName = userUpdateRequest.getUserName();
         this.userEmail = userUpdateRequest.getUserEmail();
-    }
-
-    public UserResponse toUserDto() {
-        return UserResponse.builder()
-            .userId(this.userId)
-            .userName(this.userName)
-            .userEmail(this.userEmail)
-            .createdAt(this.getCreatedAt())
-            .updatedAt(this.getUpdatedAt())
-            .build();
     }
 }
