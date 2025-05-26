@@ -21,7 +21,8 @@ import org.springframework.util.PatternMatchUtils;
 public class LoginFilter implements Filter {
 
     private static final String[] WHITE_LIST = {"/api/user/create", "/api/user/login",
-        "/api/user/search/**", "/api/schedule/search/**", "/api/comment/search/**"};
+        "/api/user/search/**", "/api/schedule/search/**", "/api/comment/search/**",
+        "/api/schedule/list/**", "/api/schedule/list"};
     private final ObjectMapper objectMapper;
 
     @Override

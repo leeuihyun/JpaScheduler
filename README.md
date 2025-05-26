@@ -42,12 +42,13 @@
 
 ## schedule
 
-| No               | Method | Description | URL                                | Request      | Response |
-|------------------|--------|-------------|------------------------------------|--------------|----------|
-| [1](#1-일정-생성)    | POST   | 일정 생성       | /api/schedule/create               | RequestBody  | 200 OK   |
-| [2](#2-선택-일정-조회) | GET    | 선택 일정 조회    | /api/schedule/search/{schedulerId} | PathVariable | 200 OK   |
-| [3](#3-선택-일정-수정) | PUT    | 선택 일정 수정    | /api/schedule/udpate               | RequestBody  | 200 OK   |
-| [4](#4-선택-일정-삭제) | DELETE | 선택 일정 삭제    | /api/schedule/delete{schedulerId}  | PathVariable | 200 OK   |
+| No                 | Method | Description | URL                                | Request      | Response |
+|--------------------|--------|-------------|------------------------------------|--------------|----------|
+| [1](#1-일정-생성)      | POST   | 일정 생성       | /api/schedule/create               | RequestBody  | 200 OK   |
+| [2](#2-선택-일정-조회)   | GET    | 선택 일정 조회    | /api/schedule/search/{schedulerId} | PathVariable | 200 OK   |
+| [3](#3-선택-일정-수정)   | PUT    | 선택 일정 수정    | /api/schedule/udpate               | RequestBody  | 200 OK   |
+| [4](#4-선택-일정-삭제)   | DELETE | 선택 일정 삭제    | /api/schedule/delete{schedulerId}  | PathVariable | 200 OK   |
+| [13](#13-전체-일정-조회) | GET    | 전체 일정 조회    | /api/schedule/list                 | RequestParam | 200 OK   |
 
 ## user
 
@@ -405,5 +406,132 @@
 ```json
 {
   "commentId": Long
+}
+```
+
+### 13. 전체 일정 조회
+
+- **URL** : `/api/schedule/list`
+- **Method** : `GET`
+
+#### 13-1. Request
+
+- **RequestParam**
+    - **URL 예시** : `/api/comment/list?pageNumber=1&size=10`
+    - **desc** : `pageNumber default 값 0, size default 값 10`
+
+#### 13-2. Response
+
+- **Response Body**
+
+```json
+{
+  "content": [
+    {
+      "scheduleId": 26,
+      "scheduleTitle": "test",
+      "scheduleContent": "스케줄 내용 test",
+      "userId": 23,
+      "createdAt": "2025-05-26 14:10",
+      "updatedAt": "2025-05-26 14:10"
+    },
+    {
+      "scheduleId": 27,
+      "scheduleTitle": "test",
+      "scheduleContent": "스케줄 내용 test",
+      "userId": 23,
+      "createdAt": "2025-05-26 14:10",
+      "updatedAt": "2025-05-26 14:10"
+    },
+    {
+      "scheduleId": 28,
+      "scheduleTitle": "test",
+      "scheduleContent": "스케줄 내용 test",
+      "userId": 23,
+      "createdAt": "2025-05-26 14:10",
+      "updatedAt": "2025-05-26 14:10"
+    },
+    {
+      "scheduleId": 29,
+      "scheduleTitle": "test",
+      "scheduleContent": "스케줄 내용 test",
+      "userId": 23,
+      "createdAt": "2025-05-26 14:10",
+      "updatedAt": "2025-05-26 14:10"
+    },
+    {
+      "scheduleId": 30,
+      "scheduleTitle": "test",
+      "scheduleContent": "스케줄 내용 test",
+      "userId": 23,
+      "createdAt": "2025-05-26 14:10",
+      "updatedAt": "2025-05-26 14:10"
+    },
+    {
+      "scheduleId": 31,
+      "scheduleTitle": "test",
+      "scheduleContent": "스케줄 내용 test",
+      "userId": 23,
+      "createdAt": "2025-05-26 14:10",
+      "updatedAt": "2025-05-26 14:10"
+    },
+    {
+      "scheduleId": 32,
+      "scheduleTitle": "test",
+      "scheduleContent": "스케줄 내용 test",
+      "userId": 23,
+      "createdAt": "2025-05-26 14:10",
+      "updatedAt": "2025-05-26 14:10"
+    },
+    {
+      "scheduleId": 33,
+      "scheduleTitle": "test",
+      "scheduleContent": "스케줄 내용 test",
+      "userId": 23,
+      "createdAt": "2025-05-26 14:10",
+      "updatedAt": "2025-05-26 14:10"
+    },
+    {
+      "scheduleId": 34,
+      "scheduleTitle": "test",
+      "scheduleContent": "스케줄 내용 test",
+      "userId": 23,
+      "createdAt": "2025-05-26 14:10",
+      "updatedAt": "2025-05-26 14:10"
+    },
+    {
+      "scheduleId": 35,
+      "scheduleTitle": "test",
+      "scheduleContent": "스케줄 내용 test",
+      "userId": 23,
+      "createdAt": "2025-05-26 14:10",
+      "updatedAt": "2025-05-26 14:10"
+    }
+  ],
+  "pageable": {
+    "pageNumber": 1,
+    "pageSize": 10,
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "offset": 10,
+    "paged": true,
+    "unpaged": false
+  },
+  "totalPages": 3,
+  "totalElements": 22,
+  "last": false,
+  "numberOfElements": 10,
+  "first": false,
+  "size": 10,
+  "number": 1,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
+  },
+  "empty": false
 }
 ```
